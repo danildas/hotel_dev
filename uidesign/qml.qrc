@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>POS_FunctionButton.qml</file>
+        <file>StatusBar.qml</file>
+        <file>TitleBar.qml</file>
+    </qresource>
+</RCC>
