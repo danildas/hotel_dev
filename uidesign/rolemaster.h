@@ -30,19 +30,19 @@ public:
     void setRole(QString Role);
 
     int sales();
-    void setSales(int sales);
+    int setSales(int sales);
 
     int payments();
-    void setPayments(int payments);
+    int setPayments(int payments);
 
     int settings();
-    void setSettings(int settings);
+    int setSettings(int settings);
 
     int report();
-    void setReport(int report);
+    int setReport(int report);
 
     int TotalCount();
-    void setTotalCount(int TotalCount);
+    int setTotalCount(int TotalCount);
 
 protected:
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
@@ -64,6 +64,7 @@ public slots:
     Q_INVOKABLE bool previous();
     Q_INVOKABLE bool edit(QString Role, int Sales, int Payment, int Settings, int Reports);
     Q_INVOKABLE bool deleteRole();
+    Q_INVOKABLE bool editUserRole(QString newRole);
 
 private:
     QString m_Code;

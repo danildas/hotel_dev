@@ -120,8 +120,30 @@ bool RoleMaster::previous()
 bool RoleMaster::edit(QString Role, int Sales, int Payment, int Settings, int Reports)
 {
     qDebug()<<"code"<<m_Code<<Role <<Sales <<Payment <<Settings <<Reports;
-    qDebug()<< "Edit Invoked";
-    QString query =(" UPDATE 'ROLE_MASTER' SET Role='"+ Role +"' Sales='"+Sales+"',Payments='"+Payment+"',Settings='"+Settings+"',Reports='"+Reports+"'  WHERE Code='"+ m_Code +"' ");
+
+    QSqlQuery query;
+    query.prepare(" UPDATE 'ROLE_MASTER' SET Role=:Role, Sales=:Sales, Payments=:Payment, Settings=:Settings,Reports=:Reports WHERE Code='"+ m_Code +"' ");
+    query.bindValue(":Role", Role);
+    query.bindValue(":Sales", Sales);
+    query.bindValue(":Payment",Payment);
+    query.bindValue(":Settings",Settings);
+    query.bindValue(":Reports",Reports);
+
+    if(!query.exec()){
+        qDebug() << "error upadte " ;
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        return true;
+    }
+    return false;
+}
+
+bool RoleMaster::editUserRole(QString newRole)
+{
+    qDebug()<< "Edit Invoked"<<"role"<<newRole;
+    qDebug()<< "code"<<m_Code;
+    QString query =("UPDATE 'USER_ACCOUNT' SET Role='"+ newRole +"'  WHERE RoleCode='" + m_Code + "' ");
     this->setQuery(query);
 }
 
@@ -163,7 +185,7 @@ int RoleMaster::sales()
 {
     return m_sales;
 }
-void RoleMaster::setSales(int sales)
+int RoleMaster::setSales(int sales)
 {
     if(sales != m_sales)
     {
@@ -176,7 +198,7 @@ int RoleMaster::payments()
 {
     return m_payments;
 }
-void RoleMaster::setPayments(int payments)
+int RoleMaster::setPayments(int payments)
 {
     if(payments != m_payments)
     {
@@ -189,7 +211,7 @@ int RoleMaster::settings()
 {
     return m_settings;
 }
-void RoleMaster::setSettings(int settings)
+int RoleMaster::setSettings(int settings)
 {
     if(settings != m_settings)
     {
@@ -202,7 +224,7 @@ int RoleMaster::report()
 {
     return m_report;
 }
-void RoleMaster::setReport(int report)
+int RoleMaster::setReport(int report)
 {
     if(report != m_report)
     {
@@ -215,7 +237,7 @@ int RoleMaster::TotalCount()
 {
     return m_totalCount;
 }
-void RoleMaster::setTotalCount(int TotalCount)
+int RoleMaster::setTotalCount(int TotalCount)
 {
     if(TotalCount !=m_totalCount)
     {

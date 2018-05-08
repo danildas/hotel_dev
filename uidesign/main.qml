@@ -207,6 +207,49 @@ Window {
                             }
                         }
                     }
+                   /* ComboBox {
+                        id: idComboBoxPrinterList
+                        width: idRectangle1.width/2
+                        height: idRectangle1.height/12
+                       // currentIndex: 0
+                        model: [
+                            { text: "Ethernet", enabled: true },
+                            { text: "Serial port", enabled: true}
+                        ]
+                        anchors{
+                             top: idTxtFieldPrinterName.bottom
+                             left: idtxtPrinterType.right
+                             right: idRectangle1.right
+                             topMargin: 8
+                             rightMargin: 50
+                             }
+
+                        delegate: ItemDelegate {
+                            width: idComboBoxPrinterList.width
+                            text: modelData.text
+                            font.weight: idComboBoxPrinterList.currentIndex === index ? Font.DemiBold : Font.Normal
+                            highlighted: ListView.isCurrentItem
+                            enabled: modelData.enabled
+                        }
+                        onCurrentTextChanged: {
+                            if(idComboBoxPrinterList.currentText=="Serial port")
+                            {
+                                console.log("Serial port");
+                                idtxtBauderate.enabled  =true
+                                idTxtFieldBauderate.enabled  =true
+                                idtxtIp.enabled =false
+                                idTxtFieldIp.enabled =false
+                            }
+                            else
+                            {
+                                console.log("Ethernet");
+                                idtxtIp.enabled  =true
+                                idTxtFieldIp.enabled  =true
+                                idtxtBauderate.enabled  =false
+                                idTxtFieldBauderate.enabled  =false
+                            }
+                        }
+                    }*/
 
                     Text {
                         id: idtxtIp
@@ -708,7 +751,6 @@ Window {
                 height: parent.height
                 anchors.top: parent.top
 
-
             TitleBar{
                 id:idTitleBarUserRegister
                 width: idItemUserRegister.width
@@ -787,6 +829,22 @@ Window {
                     height: idRectangleUserRegister.height/12
                     model: _roleMaster
                     textRole: "Role"
+                    visible: false
+                    anchors{
+                        top: idTxtFieldUserName.bottom
+                        left: idtxtRole.right
+                        right: idRectangleUserRegister.right
+                        topMargin: 10
+                        rightMargin: 50
+                         }
+                }
+                TextField{
+                    id: idTxtFieldRole
+                    width: idRectangleUserRegister.width/2
+                    height: idRectangleUserRegister.height/12
+                    font.family: "Courier"
+                    readOnly: true
+                    placeholderText: "Role"
                     anchors{
                         top: idTxtFieldUserName.bottom
                         left: idtxtRole.right
@@ -857,29 +915,6 @@ Window {
                          }
                 }
 
-             /*   Button {
-                    id: idRegisterButton
-                    anchors{
-                        top: idTxtFieldConfirmPassword.bottom
-                        right: idRectangleUserRegister.right
-                        topMargin: 20
-                        rightMargin: 310
-
-                    }
-                    background: POS_FunctionButton {
-                        text: "Register"
-                        width: idRectangleUserRegister.width/3
-                        height: idRectangleUserRegister.height/9
-                        onClicked: { console.log("clicked")
-                            _userMaster.saveUser(idTxtFieldUserName.text,idComboBoxRole.currentText,idTxtFieldPassword.text)
-                            idTxtFieldUserName.text= ""
-                            idTxtFieldPassword.text=""
-                            idTxtFieldConfirmPassword.text=""
-
-                        }
-                    }
-                }*/
-
                 Rectangle {
                     id: idRectangleInsideUserRegister
                     width: idRectangleUserRegister.width
@@ -908,7 +943,9 @@ Window {
                             height: idRectangleInsideUserRegister.height/3
                             onClicked: { _userMaster.previous()
                                 idTxtFieldUserName.text= _userMaster.UserName
-                                idComboBoxRole.currentIndex= (_userMaster.Role=== "Admin")
+                                idTxtFieldRole.text=_userMaster.Role
+                                idComboBoxRole.visible=false
+                                idTxtFieldRole.visible=true
                             }
                         }
                     }
@@ -927,7 +964,9 @@ Window {
                             onClicked: {
                                 _userMaster.next()
                                 idTxtFieldUserName.text= _userMaster.UserName
-                                idComboBoxRole.currentText= _userMaster.Role
+                                idTxtFieldRole.text=_userMaster.Role
+                                idComboBoxRole.visible=false
+                                idTxtFieldRole.visible=true
                             }
                         }
                     }
@@ -938,7 +977,6 @@ Window {
                             right: idEditButtonUser.left
                             topMargin: idRectangleInsideUserRegister.height/6
                             rightMargin: idRectangleInsideUserRegister.width/8.5
-
                         }
                         background: POS_FunctionButton {
                             text: "New"
@@ -951,6 +989,9 @@ Window {
                                 idTxtFieldUserName.text=""
                                 idTxtFieldPassword.text=""
                                 idTxtFieldConfirmPassword.text=""
+                                idTxtFieldRole.visible=false
+                                idComboBoxRole.visible=true
+                                idUpdateButtonUser.visible=false
                             }
                         }
                     }
@@ -973,6 +1014,8 @@ Window {
                                 idTxtFieldPassword.readOnly= false
                                 idTxtFieldConfirmPassword.readOnly= false
                                 idUpdateButtonUser.visible=true
+                                idTxtFieldRole.visible=false
+                                idComboBoxRole.visible=true
                                 }
                                 else
                                 {
@@ -1024,6 +1067,9 @@ Window {
                                 idTxtFieldUserName.text=""
                                 idTxtFieldPassword.text=""
                                 idTxtFieldConfirmPassword.text=""
+                                idTxtFieldRole.visible=false
+                                idComboBoxRole.visible=true
+                                _userMaster.refresh()
                             }
                         }
                     }
@@ -1048,6 +1094,9 @@ Window {
                                     idTxtFieldUserName.text= ""
                                     idTxtFieldPassword.text=""
                                     idTxtFieldConfirmPassword.text=""
+                                    idComboBoxRole.visible=false
+                                    idTxtFieldRole.visible=true
+                                    _userMaster.refresh()
                                 }
                                 else
                                 {
@@ -1085,6 +1134,9 @@ Window {
                                     idTxtFieldUserName.readOnly= true
                                     idTxtFieldPassword.readOnly= true
                                     idTxtFieldConfirmPassword.readOnly= true
+                                    idComboBoxRole.visible=false
+                                    idTxtFieldRole.visible=true
+                                    _userMaster.refresh()
                                 }
                                 else
                                 {
@@ -1150,7 +1202,7 @@ Window {
                     anchors{
                         top:idRectangleRole.top
                         left: idRectangleRole.left
-                        topMargin: 40
+                        topMargin: 20
                         leftMargin: 50
                          }
                      }
@@ -1165,12 +1217,114 @@ Window {
                          top: idRectangleRole.top
                          left: idTxtRole.right
                          right: idRectangleRole.right
-                         topMargin: 40
+                         topMargin: 20
                          rightMargin: 50
                          }
                 }
 
-                Column {
+                Text {
+                    id: idTxtCheckBoxSales
+                    width: idRectangleRole.width/2
+                    height: idRectangleRole.height/12
+                    text: qsTr("Sales")
+                    font.family: "Courier"
+                    font.pixelSize: 15
+                    anchors{
+                        top: idTxtRole.bottom
+                        left: idRectangleRole.left
+                        leftMargin: 50
+                        topMargin: 20
+                         }
+                     }
+
+                CheckBox {
+                    id: idCheckBoxSales
+                   // text: qsTr("Sales")
+                    checked: false
+                    enabled: false
+                    anchors {
+                        top: idTxtFieldRoleName.bottom
+                        left: idTxtCheckBoxSales.right
+                        topMargin: 10
+                    }
+                }
+                Text {
+                    id: idTxtCheckBoxPayment
+                    width: idRectangleRole.width/2
+                    height: idRectangleRole.height/12
+                    text: qsTr("Payment")
+                    font.family: "Courier"
+                    font.pixelSize: 15
+                    anchors{
+                        top: idTxtCheckBoxSales.bottom
+                        left: idRectangleRole.left
+                        leftMargin: 50
+                        topMargin: 20
+                         }
+                     }
+                CheckBox {
+                    id: idCheckBoxPayment
+                    //text: qsTr("Payment")
+                    checked: false
+                    enabled: false
+                    anchors {
+                        top: idCheckBoxSales.bottom
+                        left: idTxtCheckBoxPayment.right
+                        topMargin: 10
+                    }
+                }
+                Text {
+                    id: idTxtCheckBoxSettings
+                    width: idRectangleRole.width/2
+                    height: idRectangleRole.height/12
+                    text: qsTr("Settings")
+                    font.family: "Courier"
+                    font.pixelSize: 15
+                    anchors{
+                        top: idTxtCheckBoxPayment.bottom
+                        left: idRectangleRole.left
+                        leftMargin: 50
+                        topMargin: 10
+                         }
+                     }
+                CheckBox {
+                    id: idCheckBoxSettings
+                    //text: qsTr("Settings")
+                    checked: false
+                    enabled: false
+                    anchors {
+                        top: idCheckBoxPayment.bottom
+                        left: idTxtCheckBoxSettings.right
+                        topMargin: 10
+                    }
+                }
+                Text {
+                    id: idTxtCheckBoxReports
+                    width: idRectangleRole.width/2
+                    height: idRectangleRole.height/12
+                    text: qsTr("Reports")
+                    font.family: "Courier"
+                    font.pixelSize: 15
+                    anchors{
+                        top: idTxtCheckBoxSettings.bottom
+                        left: idRectangleRole.left
+                        leftMargin: 50
+                        topMargin: 15
+                         }
+                     }
+                CheckBox {
+                    id: idCheckBoxReports
+                    //text: qsTr("Reports")
+                    checked: false
+                    enabled: false
+                    anchors {
+                        top: idCheckBoxSettings.bottom
+                        left: idTxtCheckBoxReports.right
+                        topMargin: 10
+                    }
+                }
+
+              /*  Column {
                     id: idColumn
                     anchors {
                         top: idTxtRole.bottom
@@ -1202,8 +1356,7 @@ Window {
                         checked: false
                         //enabled: false
                     }
-                }
-
+                }*/
                 Rectangle {
                     id: idRectangleInsideRole
                     width: idRectangleRole.width
@@ -1265,6 +1418,11 @@ Window {
                                 {
                                     idCheckBoxReports.checked = false
                                 }
+                                idTxtFieldRoleName.readOnly =true
+                                idCheckBoxSales.enabled =false
+                                idCheckBoxPayment.enabled =false
+                                idCheckBoxSettings.enabled =false
+                                idCheckBoxReports.enabled =false
                             }
                         }
                     }
@@ -1315,6 +1473,11 @@ Window {
                                 {
                                     idCheckBoxReports.checked = false
                                 }
+                                idTxtFieldRoleName.readOnly =true
+                                idCheckBoxSales.enabled =false
+                                idCheckBoxPayment.enabled =false
+                                idCheckBoxSettings.enabled =false
+                                idCheckBoxReports.enabled =false
                             }
                         }
                     }
@@ -1339,10 +1502,13 @@ Window {
                                 idCheckBoxPayment.checked =false
                                 idCheckBoxSettings.checked = false
                                 idCheckBoxReports.checked =false
+                                idCheckBoxSales.enabled =true
+                                idCheckBoxPayment.enabled =true
+                                idCheckBoxSettings.enabled =true
+                                idCheckBoxReports.enabled =true
                             }
                         }
                     }
-
                     Button {
                         id: idEditButtonRole
                         anchors{
@@ -1360,7 +1526,10 @@ Window {
                                 {
                                     idUpdateButtonRole.visible=true
                                     idTxtFieldRoleName.readOnly=false
-
+                                    idCheckBoxSales.enabled =true
+                                    idCheckBoxPayment.enabled =true
+                                    idCheckBoxSettings.enabled =true
+                                    idCheckBoxReports.enabled =true
                                 }
                                 else
                                 {
@@ -1417,6 +1586,7 @@ Window {
                                 idCheckBoxPayment.checked =false
                                 idCheckBoxSettings.checked = false
                                 idCheckBoxReports.checked =false
+                                idUpdateButtonRole.visible=false
                             }
                         }
                     }
@@ -1471,6 +1641,10 @@ Window {
                                 idCheckBoxPayment.checked =false
                                 idCheckBoxSettings.checked = false
                                 idCheckBoxReports.checked =false
+                                idCheckBoxSales.enabled =false
+                                idCheckBoxPayment.enabled =false
+                                idCheckBoxSettings.enabled =false
+                                idCheckBoxReports.enabled =false
                             }
                             else
                             {
@@ -1521,12 +1695,18 @@ Window {
                                     report = 0
                                 }
                                 _roleMaster.edit(idTxtFieldRoleName.text,sale,payment,setting,report)
+                                _roleMaster.editUserRole(idTxtFieldRoleName.text)
                                 idTxtFieldRoleName.text = ""
                                 idCheckBoxSales.checked = false
                                 idCheckBoxPayment.checked = false
                                 idCheckBoxSettings.checked = false
                                 idCheckBoxReports.checked = false
                                 idUpdateButtonRole.visible = false
+                                idTxtFieldRoleName.readOnly =true
+                                idCheckBoxSales.enabled =false
+                                idCheckBoxPayment.enabled =false
+                                idCheckBoxSettings.enabled =false
+                                idCheckBoxReports.enabled =false
                             }
                         }
                     }

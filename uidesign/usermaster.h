@@ -13,6 +13,7 @@ class UserMaster: public QSqlQueryModel
     Q_PROPERTY(QString UserName READ UserName WRITE setUserName NOTIFY UserNameChanged)
     Q_PROPERTY(QString Role READ Role WRITE setRole NOTIFY RoleChanged)
     Q_PROPERTY(int TotalCount READ TotalCount WRITE setTotalCount NOTIFY TotalCountChanged)
+    Q_PROPERTY(int roleValueCount READ roleValueCount WRITE setRoleValueCount NOTIFY roleValueCountChanged)
 
 public:
     int userRowValue=0;
@@ -32,6 +33,9 @@ public:
     int TotalCount();
     void setTotalCount(int TotalCount);
 
+    int roleValueCount();
+    int setRoleValueCount(int roleValueCount);
+
 protected:
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
 
@@ -40,6 +44,7 @@ signals:
     void UserNameChanged();
     void RoleChanged();
     void TotalCountChanged();
+    void roleValueCountChanged();
 
 public slots:
     Q_INVOKABLE void refresh();
@@ -54,6 +59,7 @@ private:
     QString m_UserName;
     QString m_Role;
     int m_totalCount;
+    int m_roleValueCount;
 };
 
 #endif // USERMASTER_H

@@ -52,7 +52,7 @@ bool UserMaster::saveUser(QString UserName,QString Role,QString Password)
 {
     qDebug() << "saveUser "<< UserName<<Role<<Password;
     QSqlQuery query;
-    query.prepare("INSERT INTO 'USER_ACCOUNT' (UserName,Role,Password) VALUES (:UserName,:Role,:Password)");
+    query.prepare("INSERT INTO 'USER_ACCOUNT' (UserName,Role,Password,RoleCode) VALUES (:UserName,:Role,:Password,(SELECT Code FROM 'ROLE_MASTER' WHERE Role='"+Role+"'))");
             query.bindValue(":UserName", UserName);
             query.bindValue(":Role", Role);
             query.bindValue(":Password",Password);
@@ -78,9 +78,16 @@ bool UserMaster::deleteUser()
 bool UserMaster::editUser(QString UserName,QString Role,QString Password)
 {
     userRowValue=0;
+    if(Password!="")
+    {
     qDebug()<< "Edit Invoked";
-    QString query1 =("UPDATE 'USER_ACCOUNT' SET UserName='"+UserName +"',Role='"+Role +"',Password='"+Password +"'  WHERE UserCode='" + m_UserCode + "'");
+    QString query1 =("UPDATE 'USER_ACCOUNT' SET UserName='"+UserName +"',Role='"+Role +"',Password='"+Password +"',RoleCode=(SELECT Code FROM 'ROLE_MASTER' WHERE Role='"+Role+"')  WHERE UserCode='" + m_UserCode + "'");
     this->setQuery(query1);
+    }
+    else
+    {
+       qDebug()<< "Password empty";
+    }
 }
 
 bool UserMaster::next()
@@ -90,6 +97,11 @@ bool UserMaster::next()
     setUserCode(record(userRowValue).value("UserCode").toString());
     setUserName(record(userRowValue).value("UserName").toString());
     setRole(record(userRowValue).value("Role").toString());
+
+
+
+    m_roleValueCount= userRowValue;
+    qDebug()<< "values"<<m_roleValueCount;
     userRowValue++;
     }
 }
@@ -155,4 +167,17 @@ void UserMaster::setTotalCount(int TotalCount)
         m_totalCount=TotalCount;
         emit TotalCountChanged();
     }
+}
+int UserMaster::roleValueCount()
+{
+    return m_roleValueCount;
+}
+int UserMaster::setRoleValueCount(int roleValueCount)
+{
+    if(roleValueCount != m_roleValueCount)
+    {
+        m_roleValueCount=roleValueCount;
+        emit roleValueCountChanged();
+    }
+
 }
