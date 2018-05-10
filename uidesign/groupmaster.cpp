@@ -55,7 +55,6 @@ void GroupMaster::refresh()
     query1.next();
     setTotalCount(query1.value(0).toInt());
     qDebug() <<"total row count"<< m_totalCount;
-    rowValue=0;
 }
 
 
@@ -82,7 +81,6 @@ bool GroupMaster::savePrinter(QString Code, QString PrinterType, QString Ip, QSt
 
 bool GroupMaster::deletePrinter()
 {
-    rowValue=0;
     qDebug()<< "printer code"<<m_code;
 
     QString query1 = ("DELETE FROM 'PRINTERMASTER' WHERE Code='" + m_code + "' ");
@@ -91,7 +89,6 @@ bool GroupMaster::deletePrinter()
 
 bool GroupMaster::edit(QString Ip,QString Port,QString BaudRate)
 {
-    rowValue=0;
     qDebug()<< "Edit Invoked";
     QString query1 =("UPDATE 'PRINTERMASTER' SET Ip='" + Ip + "',Port='" + Port + "',BaudRate='" + BaudRate + "'  WHERE Code='" + m_code + "'");
     this->setQuery(query1);
@@ -101,12 +98,16 @@ bool GroupMaster::next()
 {
     if(m_totalCount!=rowValue)
     {
+    rowValue++;
     setCode(record(rowValue).value("Code").toString());
     setPrinterType(record(rowValue).value("PrinterType").toString());
     setIp(record(rowValue).value("Ip").toString());
     setPort(record(rowValue).value("Port").toString());
     setBaudRate(record(rowValue).value("BaudRate").toString());
-    rowValue++;
+    }
+    else
+    {
+    qDebug()<< "Empty";
     }
 }
 
@@ -206,7 +207,7 @@ void GroupMaster::setTotalCount(int TotalCount)
 {
     if(TotalCount !=m_totalCount)
     {
-        m_totalCount=TotalCount;
+        m_totalCount=TotalCount-1;
         emit TotalCountChanged();
     }
 }

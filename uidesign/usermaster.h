@@ -16,7 +16,7 @@ class UserMaster: public QSqlQueryModel
     Q_PROPERTY(int roleValueCount READ roleValueCount WRITE setRoleValueCount NOTIFY roleValueCountChanged)
 
 public:
-    int userRowValue=0;
+    int userRowValue=-1;
     explicit UserMaster(QObject *parent = 0);
 
     QVariant data(const QModelIndex &index, int role ) const Q_DECL_OVERRIDE;
@@ -35,6 +35,7 @@ public:
 
     int roleValueCount();
     int setRoleValueCount(int roleValueCount);
+
 
 protected:
     QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;

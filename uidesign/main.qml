@@ -136,6 +136,7 @@ Window {
                             leftMargin: 50
                              }
                          }
+
                     TextField{
                         id:idTxtFieldPrinterName
                         width: idRectangle1.width/2
@@ -192,64 +193,19 @@ Window {
                             if(idComboBoxPrinterList.currentText=="Serial port")
                             {
                                 console.log("Serial port");
-                                idtxtBauderate.enabled  =true
                                 idTxtFieldBauderate.enabled  =true
-                                idtxtIp.enabled =false
                                 idTxtFieldIp.enabled =false
+                                idTxtFieldIp.text=""
                             }
                             else
                             {
                                 console.log("Ethernet");
-                                idtxtIp.enabled  =true
                                 idTxtFieldIp.enabled  =true
-                                idtxtBauderate.enabled  =false
                                 idTxtFieldBauderate.enabled  =false
+                                idTxtFieldBauderate.text=""
                             }
                         }
                     }
-                   /* ComboBox {
-                        id: idComboBoxPrinterList
-                        width: idRectangle1.width/2
-                        height: idRectangle1.height/12
-                       // currentIndex: 0
-                        model: [
-                            { text: "Ethernet", enabled: true },
-                            { text: "Serial port", enabled: true}
-                        ]
-                        anchors{
-                             top: idTxtFieldPrinterName.bottom
-                             left: idtxtPrinterType.right
-                             right: idRectangle1.right
-                             topMargin: 8
-                             rightMargin: 50
-                             }
-
-                        delegate: ItemDelegate {
-                            width: idComboBoxPrinterList.width
-                            text: modelData.text
-                            font.weight: idComboBoxPrinterList.currentIndex === index ? Font.DemiBold : Font.Normal
-                            highlighted: ListView.isCurrentItem
-                            enabled: modelData.enabled
-                        }
-                        onCurrentTextChanged: {
-                            if(idComboBoxPrinterList.currentText=="Serial port")
-                            {
-                                console.log("Serial port");
-                                idtxtBauderate.enabled  =true
-                                idTxtFieldBauderate.enabled  =true
-                                idtxtIp.enabled =false
-                                idTxtFieldIp.enabled =false
-                            }
-                            else
-                            {
-                                console.log("Ethernet");
-                                idtxtIp.enabled  =true
-                                idTxtFieldIp.enabled  =true
-                                idtxtBauderate.enabled  =false
-                                idTxtFieldBauderate.enabled  =false
-                            }
-                        }
-                    }*/
 
                     Text {
                         id: idtxtIp
@@ -286,6 +242,7 @@ Window {
                              rightMargin: 50
                              }
                     }
+
                     Text {
                         id: idtxtPortnumber
                         width: idRectangle1.width/2
@@ -468,38 +425,17 @@ Window {
                                 height: idRectangleInside.height/3
                                 onClicked: {
                                         _groupMaster.refresh()
-                                      if(idComboBoxPrinterList.currentText=="Ethernet")
-                                    {
-                                       console.log("1")
-                                        idTxtFieldPrinterName.state='PrinterName'
-                                        idTxtFieldIp.state = 'Ip'
-                                        idTxtFieldPortNumber.state = 'PortNumber'
-
-                                        idTxtFieldBauderate.enabled=false
-                                        idTxtFieldIp.text =""
-                                        idTxtFieldIp.enabled=true
-                                        idTxtFieldPrinterName.text = ""
-                                        idTxtFieldPortNumber.text = ""
-                                        idComboBoxPrinterList.enabled=true
-                                          idComboBoxPrinterList.enabled  = true
-                                    }
-                                    else
-                                    {
-                                        console.log("2")
-                                        idTxtFieldPrinterName.state='PrinterName'
-                                        idTxtFieldPortNumber.state = 'PortNumber'
-                                        idTxtFieldBauderate.state = 'Bauderate'
-
-                                        idTxtFieldPrinterName.text = ""
-                                        idTxtFieldBauderate.text=""
-                                        idTxtFieldBauderate.enabled=true
-                                        idTxtFieldPortNumber.text = ""
-                                           idComboBoxPrinterList.enabled  = true
-                                    }
+                                    idTxtFieldPrinterName.state='PrinterName'
+                                    idTxtFieldIp.state = 'Ip'
+                                    idTxtFieldPortNumber.state = 'PortNumber'
+                                    idTxtFieldBauderate.state = 'Bauderate'
+                                    idTxtFieldIp.text =""
+                                    idTxtFieldPrinterName.text = ""
+                                    idTxtFieldPortNumber.text = ""
+                                    idTxtFieldBauderate.text= ""
                                 }
                             }
                         }
-
                         Button {
                             id: idEditButton
                             anchors{
@@ -523,6 +459,10 @@ Window {
                                     idUpdateButton.visible= true
                                     idSaveButton.visible= false
                                     idComboBoxPrinterList.enabled  = false
+
+                                    idTxtFieldIp.readOnly= false
+                                    idTxtFieldPortNumber.readOnly= false
+                                    idTxtFieldBauderate.readOnly= false
                                     }
                                     else
                                     {
@@ -551,6 +491,8 @@ Window {
                                     idTxtFieldPortNumber.text=""
                                     idTxtFieldIp.text=""
                                     idTxtFieldBauderate.text=""
+                                     _groupMaster.refresh()
+                                        _groupMaster.previous()
                                     }
                                     else
                                     {
@@ -573,32 +515,14 @@ Window {
                                 height: idRectangleInside.height/3
                                 onClicked: {
                                     _groupMaster.refresh()
-                                    if(idComboBoxPrinterList.currentText=="Ethernet")
-                                  {
-                                     console.log("1")
-                                      idTxtFieldPrinterName.state='PrinterName'
-                                      idTxtFieldIp.state = 'Ip'
-                                      idTxtFieldPortNumber.state = 'PortNumber'
-
-                                     idTxtFieldBauderate.enabled=false
-                                      idTxtFieldIp.text =""
-                                      idTxtFieldIp.enabled=true
-                                      idTxtFieldPrinterName.text = ""
-                                      idTxtFieldPortNumber.text = ""
-                                      idComboBoxPrinterList.enabled=true
-                                  }
-                                  else
-                                  {
-                                      console.log("2")
-                                      idTxtFieldPrinterName.state='PrinterName'
-                                      idTxtFieldPortNumber.state = 'PortNumber'
-                                      idTxtFieldBauderate.state = 'Bauderate'
-
-                                      idTxtFieldPrinterName.text = ""
-                                      idTxtFieldBauderate.text=""
-                                      idTxtFieldBauderate.enabled=true
-                                      idTxtFieldPortNumber.text = ""
-                                  }
+                                    idTxtFieldPrinterName.state='PrinterName'
+                                    idTxtFieldIp.state = 'Ip'
+                                    idTxtFieldPortNumber.state = 'PortNumber'
+                                    idTxtFieldBauderate.state = 'Bauderate'
+                                    idTxtFieldIp.text =""
+                                    idTxtFieldPrinterName.text = ""
+                                    idTxtFieldPortNumber.text = ""
+                                    idTxtFieldBauderate.text= ""
                               }
                             }
                         }
@@ -618,10 +542,17 @@ Window {
                                     if(idTxtFieldPrinterName.text !="" || idTxtFieldIp.text !=""|| idTxtFieldPortNumber.text !=""|| idTxtFieldBauderate.text!="")
                                     {
                                     _groupMaster.savePrinter(idTxtFieldPrinterName.text,idComboBoxPrinterList.currentText,idTxtFieldIp.text,idTxtFieldPortNumber.text,idTxtFieldBauderate.text)
-                                    idTxtFieldPrinterName.text=""
+                                   /* idTxtFieldPrinterName.text=""
                                     idTxtFieldPortNumber.text=""
                                     idTxtFieldIp.text=""
-                                    idTxtFieldBauderate.text=""
+                                    idTxtFieldBauderate.text=""*/
+                                        idSaveButton.visible=true
+                                        idUpdateButton.visible=false
+                                        idComboBoxPrinterList.enabled=true
+                                            idTxtFieldIp.readOnly= true
+                                            idTxtFieldPortNumber.readOnly= true
+                                            idTxtFieldBauderate.readOnly= true
+                                        _groupMaster.refresh();
                                     }
                                     else
                                     {
@@ -638,7 +569,7 @@ Window {
                                 topMargin: idRectangleInside.height/4.5
                                 rightMargin: idRectangleInside.width/8
                             }
-                            visible: false
+                            visible: false                          
                             background: POS_FunctionButton {
                                 text: "Update"
                                 width: idRectangleInside.width/8
@@ -650,10 +581,10 @@ Window {
                                     idSaveButton.visible=true
                                     idUpdateButton.visible=false
                                     idComboBoxPrinterList.enabled=true
-                                    idTxtFieldPrinterName.text=""
-                                    idTxtFieldPortNumber.text=""
-                                    idTxtFieldIp.text=""
-                                    idTxtFieldBauderate.text=""
+                                        idTxtFieldIp.readOnly= true
+                                        idTxtFieldPortNumber.readOnly= true
+                                        idTxtFieldBauderate.readOnly= true
+                                    _groupMaster.refresh()
                                     }
                                 }
                             }
@@ -794,6 +725,7 @@ Window {
                         leftMargin: 50
                          }
                      }
+
                 TextField{
                     id:idTxtFieldUserName
                     width: idRectangleUserRegister.width/2
@@ -809,6 +741,7 @@ Window {
                          rightMargin: 50
                          }
                 }
+
                 Text {
                     id: idtxtRole
                     width: idRectangleUserRegister.width/2
@@ -823,6 +756,7 @@ Window {
                         leftMargin: 50
                          }
                      }
+
                 ComboBox {
                     id: idComboBoxRole
                     width: idRectangleUserRegister.width/2
@@ -838,6 +772,7 @@ Window {
                         rightMargin: 50
                          }
                 }
+
                 TextField{
                     id: idTxtFieldRole
                     width: idRectangleUserRegister.width/2
@@ -868,6 +803,7 @@ Window {
                         leftMargin: 50
                          }
                      }
+
                 TextField{
                     id: idTxtFieldPassword
                     width: idRectangleUserRegister.width/2
@@ -884,6 +820,7 @@ Window {
                          rightMargin: 50
                          }
                 }
+
                 Text {
                     id: idtxtConfirmPassword
                     width: idRectangleUserRegister.width/2
@@ -898,6 +835,7 @@ Window {
                         leftMargin: 50
                          }
                      }
+
                 TextField{
                     id: idTxtFieldConfirmPassword
                     width: idRectangleUserRegister.width/2
@@ -963,10 +901,13 @@ Window {
                             height: idRectangleInsideUserRegister.height/3
                             onClicked: {
                                 _userMaster.next()
+                                //if(_userMaster.UserName!="")
+                                //{
                                 idTxtFieldUserName.text= _userMaster.UserName
                                 idTxtFieldRole.text=_userMaster.Role
                                 idComboBoxRole.visible=false
                                 idTxtFieldRole.visible=true
+                                //}
                             }
                         }
                     }
@@ -1043,6 +984,8 @@ Window {
                                 idTxtFieldUserName.text=""
                                 idTxtFieldPassword.text=""
                                 idTxtFieldConfirmPassword.text=""
+                                    _userMaster.refresh()
+                                    _userMaster.previous()
                                 }
                                 else
                                 {
@@ -1128,7 +1071,7 @@ Window {
                                 {
                                     _userMaster.editUser(idTxtFieldUserName.text,idComboBoxRole.currentText,idTxtFieldPassword.text)
                                     idUpdateButtonUser.visible=false
-                                    idTxtFieldUserName.text=""
+                                    //idTxtFieldUserName.text=""
                                     idTxtFieldPassword.text=""
                                     idTxtFieldConfirmPassword.text=""
                                     idTxtFieldUserName.readOnly= true
@@ -1137,6 +1080,7 @@ Window {
                                     idComboBoxRole.visible=false
                                     idTxtFieldRole.visible=true
                                     _userMaster.refresh()
+                                    _userMaster.previous()
                                 }
                                 else
                                 {

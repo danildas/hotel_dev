@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QDebug>
 
-#define DB_PATH "F:/WorkSpace/Qt/work/27-03-18/POS.db"
+#define DB_PATH "E:/projects/hotel_dev/POS.db"
 
 static bool createConnection()
 {

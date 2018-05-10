@@ -46,6 +46,12 @@ void UserMaster::refresh()
     qDebug() << "refresh invoked" ;
     QString query = "SELECT UserCode,UserName,Role FROM 'USER_ACCOUNT'";
     this->setQuery(query);
+
+    QSqlQuery query1;
+    query1.exec("SELECT COUNT(*) FROM 'USER_ACCOUNT'");
+    query1.next();
+    setTotalCount(query1.value(0).toInt());
+    qDebug() <<"total row count"<< m_totalCount;
 }
 
 bool UserMaster::saveUser(QString UserName,QString Role,QString Password)
@@ -69,7 +75,7 @@ bool UserMaster::saveUser(QString UserName,QString Role,QString Password)
 
 bool UserMaster::deleteUser()
 {
-    userRowValue=0;
+    //userRowValue=0;
     qDebug()<<"code"<<m_UserCode;
     QString query = ("DELETE FROM 'USER_ACCOUNT' WHERE UserCode='" + m_UserCode + "' ");
     this->setQuery(query);
@@ -77,7 +83,7 @@ bool UserMaster::deleteUser()
 
 bool UserMaster::editUser(QString UserName,QString Role,QString Password)
 {
-    userRowValue=0;
+    //userRowValue=0;
     if(Password!="")
     {
     qDebug()<< "Edit Invoked";
@@ -94,15 +100,15 @@ bool UserMaster::next()
 {
     if(m_totalCount!=userRowValue)
     {
+    userRowValue++;
     setUserCode(record(userRowValue).value("UserCode").toString());
     setUserName(record(userRowValue).value("UserName").toString());
     setRole(record(userRowValue).value("Role").toString());
 
-
-
     m_roleValueCount= userRowValue;
     qDebug()<< "values"<<m_roleValueCount;
-    userRowValue++;
+    qDebug()<< "total count"<<m_totalCount;
+               qDebug()<< "userRowValue"<<userRowValue;
     }
 }
 
@@ -164,7 +170,7 @@ void UserMaster::setTotalCount(int TotalCount)
 {
     if(TotalCount !=m_totalCount)
     {
-        m_totalCount=TotalCount;
+        m_totalCount=TotalCount-1;
         emit TotalCountChanged();
     }
 }

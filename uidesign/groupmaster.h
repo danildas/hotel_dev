@@ -17,7 +17,7 @@ class GroupMaster: public QSqlQueryModel
     Q_PROPERTY(int TotalCount READ TotalCount WRITE setTotalCount NOTIFY TotalCountChanged)
     Q_PROPERTY(QString Role READ Role WRITE setRole NOTIFY RoleChanged)
 public:
-    int rowValue=0;
+    int rowValue=-1;
     explicit GroupMaster(QObject *parent = 0);
 
     QVariant data(const QModelIndex &index, int role ) const Q_DECL_OVERRIDE;
