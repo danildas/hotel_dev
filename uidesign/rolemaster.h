@@ -18,7 +18,7 @@ class RoleMaster: public QSqlQueryModel
     Q_PROPERTY(int TotalCount READ TotalCount WRITE setTotalCount NOTIFY TotalCountChanged)
 
 public:
-    int roleRowValue =0;
+    int roleRowValue =-1;
     explicit RoleMaster(QObject *parent = 0);
 
     QVariant data(const QModelIndex &index, int role ) const Q_DECL_OVERRIDE;

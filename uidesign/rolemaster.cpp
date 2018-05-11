@@ -55,7 +55,6 @@ void RoleMaster::refresh()
     query1.next();
     setTotalCount(query1.value(0).toInt());
     qDebug() <<"total row count"<< m_totalCount;
-    roleRowValue=0;
 }
 
 bool RoleMaster::getRole()
@@ -93,13 +92,13 @@ bool RoleMaster::next()
 {
     if(m_totalCount!=roleRowValue)
     {
+     roleRowValue++;
      setCode(record(roleRowValue).value("Code").toString());
      setRole(record(roleRowValue).value("Role").toString());
      setSales(record(roleRowValue).value("Sales").toInt());
      setPayments(record(roleRowValue).value("Payments").toInt());
      setSettings(record(roleRowValue).value("Settings").toInt());
      setReport(record(roleRowValue).value("Reports").toInt());
-     roleRowValue++;
     }
 }
 
@@ -149,8 +148,8 @@ bool RoleMaster::editUserRole(QString newRole)
 
 bool RoleMaster::deleteRole()
 {
-    roleRowValue=0;
     qDebug()<<"code"<<m_Code;
+    setTotalCount(m_totalCount-1);
     QString query = ("DELETE FROM 'ROLE_MASTER' WHERE Code='" + m_Code + "' ");
     this->setQuery(query);
 }
@@ -241,7 +240,7 @@ int RoleMaster::setTotalCount(int TotalCount)
 {
     if(TotalCount !=m_totalCount)
     {
-        m_totalCount=TotalCount;
+        m_totalCount=TotalCount-1;
         emit TotalCountChanged();
     }
 }

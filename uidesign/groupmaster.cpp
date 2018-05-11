@@ -57,7 +57,6 @@ void GroupMaster::refresh()
     qDebug() <<"total row count"<< m_totalCount;
 }
 
-
 bool GroupMaster::savePrinter(QString Code, QString PrinterType, QString Ip, QString Port, QString BaudRate)
 {
     qDebug() << "savePrinter " ;
@@ -81,7 +80,8 @@ bool GroupMaster::savePrinter(QString Code, QString PrinterType, QString Ip, QSt
 
 bool GroupMaster::deletePrinter()
 {
-    qDebug()<< "printer code"<<m_code;
+    qDebug()<<"delete printer"<<"printer code"<<m_code;
+    setTotalCount(m_totalCount-1);
 
     QString query1 = ("DELETE FROM 'PRINTERMASTER' WHERE Code='" + m_code + "' ");
     this->setQuery(query1);
@@ -96,6 +96,7 @@ bool GroupMaster::edit(QString Ip,QString Port,QString BaudRate)
 
 bool GroupMaster::next()
 {
+    qDebug()<< "next";
     if(m_totalCount!=rowValue)
     {
     rowValue++;
@@ -113,6 +114,7 @@ bool GroupMaster::next()
 
 bool GroupMaster::previous()
 {
+    qDebug()<< "previous";
     if(rowValue>=1)
     {
     rowValue--;

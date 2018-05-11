@@ -77,6 +77,7 @@ bool UserMaster::deleteUser()
 {
     //userRowValue=0;
     qDebug()<<"code"<<m_UserCode;
+    setTotalCount(m_totalCount-1);
     QString query = ("DELETE FROM 'USER_ACCOUNT' WHERE UserCode='" + m_UserCode + "' ");
     this->setQuery(query);
 }

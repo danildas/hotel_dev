@@ -138,7 +138,7 @@ Window {
                          }
 
                     TextField{
-                        id:idTxtFieldPrinterName
+                        id: idTxtFieldPrinterName
                         width: idRectangle1.width/2
                         height: idRectangle1.height/12
                         font.family: "Courier"
@@ -366,6 +366,8 @@ Window {
                                         idTxtFieldBauderate.enabled=true
                                         idTxtFieldIp.enabled=false
                                     }
+                                    idSaveButton.visible=true
+                                    idUpdateButton.visible=false
                             }
                             }
                         }
@@ -401,7 +403,8 @@ Window {
                                         idTxtFieldBauderate.enabled=true
                                         idTxtFieldIp.enabled=false
                                     }
-
+                                    idSaveButton.visible=true
+                                    idUpdateButton.visible=false
                                     idTxtFieldPrinterName.state = ""
                                     idTxtFieldBauderate.state = ""
                                     idTxtFieldIp.state = ""
@@ -433,6 +436,13 @@ Window {
                                     idTxtFieldPrinterName.text = ""
                                     idTxtFieldPortNumber.text = ""
                                     idTxtFieldBauderate.text= ""
+                                    idTxtFieldPrinterName.readOnly= false
+                                    idTxtFieldIp.readOnly= false
+                                    idTxtFieldPortNumber.readOnly= false
+                                    idTxtFieldBauderate.readOnly= false
+                                    idComboBoxPrinterList.enabled  = true
+                                    idSaveButton.visible=true
+                                    idUpdateButton.visible=false
                                 }
                             }
                         }
@@ -487,12 +497,24 @@ Window {
                                     if(idTxtFieldPrinterName.text !="")
                                     {
                                     _groupMaster.deletePrinter()
-                                    idTxtFieldPrinterName.text=""
-                                    idTxtFieldPortNumber.text=""
-                                    idTxtFieldIp.text=""
-                                    idTxtFieldBauderate.text=""
                                      _groupMaster.refresh()
-                                        _groupMaster.previous()
+                                       _groupMaster.previous()
+                                        idTxtFieldPrinterName.text =_groupMaster.Code
+                                        idComboBoxPrinterList.currentIndex = (_groupMaster.PrinterType === "Ethernet")? 0 : 1
+                                        idTxtFieldIp.text = _groupMaster.Ip
+                                        idTxtFieldPortNumber.text = _groupMaster.Port
+                                        idTxtFieldBauderate.text = _groupMaster.BaudRate
+
+                                        if( _groupMaster.PrinterType=="Ethernet")
+                                        {
+                                            idTxtFieldBauderate.enabled=false
+                                            idTxtFieldIp.enabled=true
+                                        }
+                                        else
+                                        {
+                                            idTxtFieldBauderate.enabled=true
+                                            idTxtFieldIp.enabled=false
+                                        }
                                     }
                                     else
                                     {
@@ -539,21 +561,37 @@ Window {
                                 width: idRectangleInside.width/8
                                 height: idRectangleInside.height/3
                                 onClicked: {
-                                    if(idTxtFieldPrinterName.text !="" || idTxtFieldIp.text !=""|| idTxtFieldPortNumber.text !=""|| idTxtFieldBauderate.text!="")
+                                    if(idTxtFieldPrinterName.text !="" && idTxtFieldPortNumber.text !="" || idTxtFieldIp.text !="" || idTxtFieldBauderate.text!="")
                                     {
                                     _groupMaster.savePrinter(idTxtFieldPrinterName.text,idComboBoxPrinterList.currentText,idTxtFieldIp.text,idTxtFieldPortNumber.text,idTxtFieldBauderate.text)
-                                   /* idTxtFieldPrinterName.text=""
-                                    idTxtFieldPortNumber.text=""
-                                    idTxtFieldIp.text=""
-                                    idTxtFieldBauderate.text=""*/
+
+                                        _groupMaster.refresh();
+                                        _groupMaster.next();
+
+                                        idTxtFieldPrinterName.text =_groupMaster.Code
+                                        idComboBoxPrinterList.currentIndex = (_groupMaster.PrinterType === "Ethernet")? 0 : 1
+                                        idTxtFieldIp.text = _groupMaster.Ip
+                                        idTxtFieldPortNumber.text = _groupMaster.Port
+                                        idTxtFieldBauderate.text = _groupMaster.BaudRate
+
+                                        if( _groupMaster.PrinterType=="Ethernet")
+                                        {
+                                            idTxtFieldBauderate.enabled=false
+                                            idTxtFieldIp.enabled=true
+                                        }
+                                        else
+                                        {
+                                            idTxtFieldBauderate.enabled=true
+                                            idTxtFieldIp.enabled=false
+                                        }
                                         idSaveButton.visible=true
                                         idUpdateButton.visible=false
                                         idComboBoxPrinterList.enabled=true
+                                        idTxtFieldPrinterName.readOnly= true
                                             idTxtFieldIp.readOnly= true
                                             idTxtFieldPortNumber.readOnly= true
                                             idTxtFieldBauderate.readOnly= true
-                                        _groupMaster.refresh();
-                                    }
+                                       }
                                     else
                                     {
                                         console.log("Textfields are empty!")
@@ -884,6 +922,10 @@ Window {
                                 idTxtFieldRole.text=_userMaster.Role
                                 idComboBoxRole.visible=false
                                 idTxtFieldRole.visible=true
+                                idTxtFieldUserName.readOnly= true
+                                idTxtFieldPassword.readOnly= true
+                                idTxtFieldConfirmPassword.readOnly= true
+                                 idUpdateButtonUser.visible=false
                             }
                         }
                     }
@@ -907,6 +949,10 @@ Window {
                                 idTxtFieldRole.text=_userMaster.Role
                                 idComboBoxRole.visible=false
                                 idTxtFieldRole.visible=true
+                                idTxtFieldUserName.readOnly= true
+                                idTxtFieldPassword.readOnly= true
+                                idTxtFieldConfirmPassword.readOnly= true
+                                 idUpdateButtonUser.visible=false
                                 //}
                             }
                         }
@@ -986,6 +1032,10 @@ Window {
                                 idTxtFieldConfirmPassword.text=""
                                     _userMaster.refresh()
                                     _userMaster.previous()
+                                    idTxtFieldUserName.text= _userMaster.UserName
+                                    idTxtFieldRole.text=_userMaster.Role
+                                    idComboBoxRole.visible=false
+                                    idTxtFieldRole.visible=true
                                 }
                                 else
                                 {
@@ -1029,17 +1079,23 @@ Window {
                             width: idRectangleInsideUserRegister.width/8
                             height: idRectangleInsideUserRegister.height/3
                             onClicked:  { console.log("clicked")
-                                if(idTxtFieldUserName.text!= "" || idTxtFieldPassword.text!="" || idTxtFieldConfirmPassword.text!="")
+                                if(idTxtFieldUserName.text!= "" && idTxtFieldPassword.text!="" && idTxtFieldConfirmPassword.text!="")
                                 {
                                 if(idTxtFieldPassword.text == idTxtFieldConfirmPassword.text)
                                 {
                                     _userMaster.saveUser(idTxtFieldUserName.text,idComboBoxRole.currentText,idTxtFieldPassword.text)
-                                    idTxtFieldUserName.text= ""
+                                   /* idTxtFieldUserName.text= ""
                                     idTxtFieldPassword.text=""
-                                    idTxtFieldConfirmPassword.text=""
+                                    idTxtFieldConfirmPassword.text=""*/
                                     idComboBoxRole.visible=false
                                     idTxtFieldRole.visible=true
                                     _userMaster.refresh()
+                                    _userMaster.next()
+                                    idTxtFieldUserName.text= _userMaster.UserName
+                                    idTxtFieldRole.text=_userMaster.Role
+                                    idTxtFieldUserName.readOnly= true
+                                    idTxtFieldPassword.readOnly= true
+                                    idTxtFieldConfirmPassword.readOnly= true
                                 }
                                 else
                                 {
@@ -1067,11 +1123,12 @@ Window {
                             width: idRectangleInsideUserRegister.width/8
                             height: idRectangleInsideUserRegister.height/3
                             onClicked: {
+                                if(idTxtFieldUserName.text!= "" && idTxtFieldPassword.text!="" && idTxtFieldConfirmPassword.text!="")
+                                {
                                 if(idTxtFieldPassword.text == idTxtFieldConfirmPassword.text)
                                 {
                                     _userMaster.editUser(idTxtFieldUserName.text,idComboBoxRole.currentText,idTxtFieldPassword.text)
                                     idUpdateButtonUser.visible=false
-                                    //idTxtFieldUserName.text=""
                                     idTxtFieldPassword.text=""
                                     idTxtFieldConfirmPassword.text=""
                                     idTxtFieldUserName.readOnly= true
@@ -1079,13 +1136,14 @@ Window {
                                     idTxtFieldConfirmPassword.readOnly= true
                                     idComboBoxRole.visible=false
                                     idTxtFieldRole.visible=true
+                                    idComboBoxRole.currentIndex=0
                                     _userMaster.refresh()
-                                    _userMaster.previous()
                                 }
                                 else
                                 {
                                     console.log("Password do not match")
                                 }
+                            }
                             }
                         }
                     }
@@ -1150,6 +1208,7 @@ Window {
                         leftMargin: 50
                          }
                      }
+
                 TextField{
                     id: idTxtFieldRoleName
                     width: idRectangleRole.width/2
@@ -1192,6 +1251,7 @@ Window {
                         topMargin: 10
                     }
                 }
+
                 Text {
                     id: idTxtCheckBoxPayment
                     width: idRectangleRole.width/2
@@ -1206,6 +1266,7 @@ Window {
                         topMargin: 20
                          }
                      }
+
                 CheckBox {
                     id: idCheckBoxPayment
                     //text: qsTr("Payment")
@@ -1217,6 +1278,7 @@ Window {
                         topMargin: 10
                     }
                 }
+
                 Text {
                     id: idTxtCheckBoxSettings
                     width: idRectangleRole.width/2
@@ -1231,6 +1293,7 @@ Window {
                         topMargin: 10
                          }
                      }
+
                 CheckBox {
                     id: idCheckBoxSettings
                     //text: qsTr("Settings")
@@ -1242,6 +1305,7 @@ Window {
                         topMargin: 10
                     }
                 }
+
                 Text {
                     id: idTxtCheckBoxReports
                     width: idRectangleRole.width/2
@@ -1256,6 +1320,7 @@ Window {
                         topMargin: 15
                          }
                      }
+
                 CheckBox {
                     id: idCheckBoxReports
                     //text: qsTr("Reports")
@@ -1367,6 +1432,7 @@ Window {
                                 idCheckBoxPayment.enabled =false
                                 idCheckBoxSettings.enabled =false
                                 idCheckBoxReports.enabled =false
+                                idUpdateButtonRole.visible=false
                             }
                         }
                     }
@@ -1422,6 +1488,7 @@ Window {
                                 idCheckBoxPayment.enabled =false
                                 idCheckBoxSettings.enabled =false
                                 idCheckBoxReports.enabled =false
+                                idUpdateButtonRole.visible=false
                             }
                         }
                     }
@@ -1498,11 +1565,47 @@ Window {
                                 if(idTxtFieldRoleName.text!="")
                                 {
                                 _roleMaster.deleteRole()
-                                idTxtFieldRoleName.text=""
-                                idCheckBoxSales.checked =false
-                                idCheckBoxPayment.checked =false
-                                idCheckBoxSettings.checked = false
-                                idCheckBoxReports.checked =false
+                                _roleMaster.refresh()
+                                    _roleMaster.previous()
+                                    idTxtFieldRoleName.text=_roleMaster.Role
+                                    if(_roleMaster.sales =="1")
+                                    {
+                                        idCheckBoxSales.checked = true
+                                    }
+                                    else
+                                    {
+                                        idCheckBoxSales.checked = false
+                                    }
+                                    if(_roleMaster.payments =="1")
+                                    {
+                                        idCheckBoxPayment.checked = true
+                                    }
+                                    else
+                                    {
+                                        idCheckBoxPayment.checked = false
+                                    }
+                                    if(_roleMaster.settings =="1")
+                                    {
+                                        idCheckBoxSettings.checked = true
+                                    }
+                                    else
+                                    {
+                                        idCheckBoxSettings.checked = false
+                                    }
+                                    if(_roleMaster.report =="1")
+                                    {
+                                        idCheckBoxReports.checked = true
+                                    }
+                                    else
+                                    {
+                                        idCheckBoxReports.checked = false
+                                    }
+                                    idTxtFieldRoleName.readOnly =true
+                                    idCheckBoxSales.enabled =false
+                                    idCheckBoxPayment.enabled =false
+                                    idCheckBoxSettings.enabled =false
+                                    idCheckBoxReports.enabled =false
+                                    idUpdateButtonRole.visible=false
                                 }
                                 else
                                 {
@@ -1578,9 +1681,46 @@ Window {
                                     report=0
                                 }
 
-                                console.log(sale)
+                                console.log("save")
                                     _roleMaster.saveRole(idTxtFieldRoleName.text,sale,payment,setting,report)
-                                idTxtFieldRoleName.text=""
+                                 _roleMaster.refresh()
+                                _roleMaster.next()
+                                idTxtFieldRoleName.text=_roleMaster.Role
+                                if(_roleMaster.sales =="1")
+                                {
+                                    idCheckBoxSales.checked = true
+                                }
+                                else
+                                {
+                                    idCheckBoxSales.checked = false
+                                }
+                                if(_roleMaster.payments =="1")
+                                {
+                                    idCheckBoxPayment.checked = true
+                                }
+                                else
+                                {
+                                    idCheckBoxPayment.checked = false
+                                }
+                                if(_roleMaster.settings =="1")
+                                {
+                                    idCheckBoxSettings.checked = true
+                                }
+                                else
+                                {
+                                    idCheckBoxSettings.checked = false
+                                }
+                                if(_roleMaster.report =="1")
+                                {
+                                    idCheckBoxReports.checked = true
+                                }
+                                else
+                                {
+                                    idCheckBoxReports.checked = false
+                                }
+                                idTxtFieldRoleName.readOnly =true
+                                idUpdateButtonRole.visible=false
+                               // idTxtFieldRoleName.text=""
                                 idCheckBoxSales.checked =false
                                 idCheckBoxPayment.checked =false
                                 idCheckBoxSettings.checked = false
@@ -1640,11 +1780,7 @@ Window {
                                 }
                                 _roleMaster.edit(idTxtFieldRoleName.text,sale,payment,setting,report)
                                 _roleMaster.editUserRole(idTxtFieldRoleName.text)
-                                idTxtFieldRoleName.text = ""
-                                idCheckBoxSales.checked = false
-                                idCheckBoxPayment.checked = false
-                                idCheckBoxSettings.checked = false
-                                idCheckBoxReports.checked = false
+                                _roleMaster.refresh()
                                 idUpdateButtonRole.visible = false
                                 idTxtFieldRoleName.readOnly =true
                                 idCheckBoxSales.enabled =false
