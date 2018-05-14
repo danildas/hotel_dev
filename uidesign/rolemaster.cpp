@@ -70,6 +70,7 @@ bool RoleMaster::getRole()
 bool RoleMaster::saveRole(QString Role, int Sales, int Payment, int Settings, int Reports)
 {
     qDebug() << "saveRole "<<Role<<Sales<<Payment<<Settings<<Reports;
+    roleRowValue=m_totalCount;
     QSqlQuery query;
     query.prepare("INSERT INTO 'ROLE_MASTER' (Role,Sales,Payments,Settings,Reports) VALUES (:Role,:Sales,:Payment,:Settings,:Reports)");
             query.bindValue(":Role", Role);

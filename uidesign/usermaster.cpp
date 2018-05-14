@@ -57,6 +57,7 @@ void UserMaster::refresh()
 bool UserMaster::saveUser(QString UserName,QString Role,QString Password)
 {
     qDebug() << "saveUser "<< UserName<<Role<<Password;
+    userRowValue=m_totalCount;
     QSqlQuery query;
     query.prepare("INSERT INTO 'USER_ACCOUNT' (UserName,Role,Password,RoleCode) VALUES (:UserName,:Role,:Password,(SELECT Code FROM 'ROLE_MASTER' WHERE Role='"+Role+"'))");
             query.bindValue(":UserName", UserName);

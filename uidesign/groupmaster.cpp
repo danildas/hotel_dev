@@ -60,6 +60,7 @@ void GroupMaster::refresh()
 bool GroupMaster::savePrinter(QString Code, QString PrinterType, QString Ip, QString Port, QString BaudRate)
 {
     qDebug() << "savePrinter " ;
+    rowValue=m_totalCount;
     QSqlQuery query;
     query.prepare("INSERT INTO 'PRINTERMASTER' (Code,PrinterType,Ip,Port,BaudRate) VALUES (:Code,:PrinterType,:Ip,:Port,:BaudRate)");
             query.bindValue(":Code", Code);
