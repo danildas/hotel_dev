@@ -59,12 +59,7 @@ void RoleMaster::refresh()
 
 bool RoleMaster::getRole()
 {
-   // setCode(record(roleRowValue).value("Code").toString());
     setRole(record(roleRowValue).value("Role").toString());
-  //  setSales(record(roleRowValue).value("Sales").toInt());
-  //  setPayments(record(roleRowValue).value("Payments").toInt());
-  //  setSettings(record(roleRowValue).value("Settings").toInt());
-  //  setReport(record(roleRowValue).value("Reports").toInt());
 }
 
 bool RoleMaster::saveRole(QString Role, int Sales, int Payment, int Settings, int Reports)

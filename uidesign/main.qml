@@ -1333,39 +1333,6 @@ Window {
                     }
                 }
 
-              /*  Column {
-                    id: idColumn
-                    anchors {
-                        top: idTxtRole.bottom
-                        left: idRectangleRole.left
-                        leftMargin: 50
-                        topMargin: 20
-                    }
-                    CheckBox {
-                        id: idCheckBoxSales
-                        text: qsTr("Sales")
-                        checked: false
-                        //enabled: false
-                    }
-                    CheckBox {
-                        id: idCheckBoxPayment
-                        text: qsTr("Payment")
-                        checked: false
-                       //enabled: false
-                    }
-                    CheckBox {
-                        id: idCheckBoxSettings
-                        text: qsTr("Settings")
-                        checked: false
-                        //enabled: false
-                    }
-                    CheckBox {
-                        id: idCheckBoxReports
-                        text: qsTr("Reports")
-                        checked: false
-                        //enabled: false
-                    }
-                }*/
                 Rectangle {
                     id: idRectangleInsideRole
                     width: idRectangleRole.width
@@ -1720,7 +1687,6 @@ Window {
                                 }
                                 idTxtFieldRoleName.readOnly =true
                                 idUpdateButtonRole.visible=false
-                               // idTxtFieldRoleName.text=""
                                 idCheckBoxSales.checked =false
                                 idCheckBoxPayment.checked =false
                                 idCheckBoxSettings.checked = false
